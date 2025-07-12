@@ -18,3 +18,4 @@ node_modules/
 *.db
 celerybeat-schedule
 db.*
+src/*.html
