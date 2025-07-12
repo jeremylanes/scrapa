@@ -17,3 +17,12 @@ list_div_centre = soup.find_all('div', class_='centre')
 description_paragraph = list_div_centre[1].find('p', class_='description')
 
 print(f'Description : {description_paragraph.text}')
+
+
+# find image src
+print()
+print('------ image src ------')
+div_info = soup.find('div', class_='info')
+img = div_info.find('img')
+img_src = img['src']
+print(f'Image src: {img_src}')
