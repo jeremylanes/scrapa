@@ -30,6 +30,6 @@ section = soup.find('section')
 
 images = section.find_all('img')
 
-images_urls = [image.get('src') for image in images]
+images_urls = [image.get('src') for image in images if image.get('src')]
 
 pprint(images_urls)
