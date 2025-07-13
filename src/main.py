@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -29,4 +31,14 @@ with open('index.html', 'r') as f:
 soup = BeautifulSoup(f, 'html.parser')
 # print(soup.prettify())
 
-browse_dom(soup)
+# browse_dom(soup)
+aside = soup.find('aside')
+
+# for child in aside.children:
+#     if child.name:
+#         print(child.name)
+#         print()
+
+side_categories = aside.find('div', class_='side_categories')
+
+print(len(side_categories))
