@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 #Retrieve categories with a single book
 
-def retrieve_categories_urls(url: str) -> list:
+def retrieve_categories_headers(url: str) -> list:
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -12,42 +12,40 @@ def retrieve_categories_urls(url: str) -> list:
 
     # --- retrieve categories ---
     categories = side_categories.find('ul').find('li').find('ul')
-    categories_url = categories.find_all('a', href=True)
-    categories_url_list = [category['href'] for category in categories_url]
+    categories = categories.find_all('a', href=True)
+    # print(categories)
+    categories_headers = [
+        {
+            'name': category.text.strip(),
+            'url': f'{url}{category.get('href')}'
+        }
+        for category in categories if category.name
+    ]
+    return categories_headers
 
-    print(categories_url_list)
-
-    # --- retrieve books ---
-    books_categories_urls = [f'{url}{book_url}' for book_url in categories_url_list]
-
-
-
-    return books_categories_urls
-
-def retrieve_categories_books_number(urls: list) -> dict:
-    categories_books_number: dict = {}
-    for url in urls:
-        response = requests.get(url)
+def retrieve_categories_books_number(categories_headers: list) -> dict:
+    categories_books_number: list[dict] = []
+    for header in categories_headers:
+        response = requests.get(header.get('url'))
         soup = BeautifulSoup(response.text, 'html.parser')
 
         books = soup.find('section').find_all('li')
 
-        categories_books_number = {
-            'category': {
-                'name': 'xd',
-                'url': url,
+        categories_books_number += [
+            {
+                'name': header.get('name'),
+                'url': header.get('url'),
                 'books_number': len(books)
             }
-        }
-
-        print(categories_books_number)
+        ]
 
     return categories_books_number
 
 
 url = 'https://books.toscrape.com/'
 
-urls = retrieve_categories_urls(url)
+urls = retrieve_categories_headers(url)
+print(urls)
 books_number = retrieve_categories_books_number(urls)
 
 print(books_number)
