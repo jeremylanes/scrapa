@@ -41,4 +41,21 @@ books = section.find_all('h3')
 
 books_titles = [book.a.get('title') for book in books if book.name]
 
-pprint(books_titles)
+# pprint(books_titles)
+
+
+# from Thibau
+# articles = soup.find_all('article', class_='product_pod')
+#
+# for article in articles:
+#     links = article.find_all('a')
+#
+#     if len(links) >= 2:
+#         link = links[1]
+#         title = link.get('title')
+#         print(title)
+
+titles_tags = soup.find_all('a', title=True)
+
+titles = [title.get('title') for title in titles_tags]
+pprint(titles)
