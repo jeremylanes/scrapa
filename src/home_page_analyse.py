@@ -39,6 +39,6 @@ images_urls = [image.get('src') for image in images if image.get('src')]
 
 books = section.find_all('h3')
 
-books_titles = [book.text.strip() for book in books if book.name]
+books_titles = [book.a.get('title') for book in books if book.name]
 
 pprint(books_titles)
