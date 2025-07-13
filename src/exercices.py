@@ -26,6 +26,8 @@ def retrieve_categories_headers(url: str) -> list:
 def retrieve_categories_books_number(categories_headers: list) -> dict:
     categories_books_number: list[dict] = []
     for header in categories_headers:
+        print(f'Processing category {header.get("name")}')
+
         response = requests.get(header.get('url'))
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -48,4 +50,5 @@ urls = retrieve_categories_headers(url)
 print(urls)
 books_number = retrieve_categories_books_number(urls)
 
-print(books_number)
+books = [x for x in books_number if x.get('books_number') <= 5]
+print(books)
